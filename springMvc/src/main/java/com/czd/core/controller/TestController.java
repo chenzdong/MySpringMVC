@@ -15,7 +15,7 @@ import java.io.IOException;
  * @create: 2018/3/9 13:49
  */
 @MyController
-@MyRequestMapping("/*")
+@MyRequestMapping("/test")
 public class TestController {
 
     @MyRequestMapping("/doTest")
@@ -28,10 +28,10 @@ public class TestController {
         }
     }
     @MyRequestMapping("/doTest2")
-    public void Test2(HttpServletRequest request,HttpServletResponse response,@MyRequestParam("param") String param){
-        System.out.println(param);
+    public void Test2(HttpServletRequest request,HttpServletResponse response){
+        System.out.println("");
         try {
-            response.getWriter().write("doTest2 method success!params:"+param);
+            response.getWriter().write("doTest2 method success!:");
         } catch (IOException e) {
             e.printStackTrace();
         }

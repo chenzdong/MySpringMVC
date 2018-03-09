@@ -90,7 +90,7 @@ public class MyDispatcherServlet extends HttpServlet {
                 continue;
             }
             if("HttpServletResponse".equals(requestParam)){
-                paramValues[i]=req;
+                paramValues[i]=resp;
                 continue;
             }
             if("String".equals(requestParam)){
@@ -102,8 +102,11 @@ public class MyDispatcherServlet extends HttpServlet {
             }
         }
         //利用反射调用
-        method.invoke(this.controllerMap.get(url),paramValues);
-
+        try {
+            method.invoke(this.controllerMap.get(url), paramValues);//obj是method所对应的实例 在ioc容器中
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     /**
      * 加载配置文件
@@ -197,7 +200,7 @@ public class MyDispatcherServlet extends HttpServlet {
                 if(!method.isAnnotationPresent(MyRequestMapping.class)){
                     continue;
                 }
-                MyRequestMapping annotation=clazz.getAnnotation(MyRequestMapping.class);
+                MyRequestMapping annotation=method.getAnnotation(MyRequestMapping.class);
                 String url=annotation.value();
                 url=(baseUrl+"/"+url).replaceAll("/+","/");
                 handlerMapping.put(url,method);
@@ -214,7 +217,7 @@ public class MyDispatcherServlet extends HttpServlet {
         }
     }
     /**
-     * 转化为小写
+     * 字符串首字母转化为小写
      * @param name
      * @return
      */
