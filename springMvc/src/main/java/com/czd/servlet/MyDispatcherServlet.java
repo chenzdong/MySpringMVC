@@ -22,13 +22,12 @@ import java.util.*;
  * @create: 2018/3/9 10:05
  */
 public class MyDispatcherServlet extends HttpServlet {
-
+    //配置文件
     private Properties properties=new Properties();
-
+    //类名列表
     private List<String> classNames=new ArrayList<String>();
-
+    //容器
     private Map<String,Object> ioc=new HashMap<String, Object>();
-
     private Map<String,Method> handlerMapping=new HashMap<String, Method>();
 
     private Map<String,Object> controllerMap=new HashMap<String, Object>();
@@ -52,7 +51,7 @@ public class MyDispatcherServlet extends HttpServlet {
         doLoadConfig(config.getInitParameter("contextConfigLocation"));
         //2 初始化所有相关联的类，扫描用户设定的包下面所有的类
         doScanner(properties.getProperty("scanPackage"));
-        //3 拿到扫描的类，通过反射机制，实例化，并放在idc容器中（k-v beanName-bean）
+        //3 拿到扫描的类，通过反射机制，实例化，并放在ioc容器中（k-v beanName-bean）
         doInstance();
         //4 初始化HandlerMapping(将url和method对应上)
         initHandlerMapping();
